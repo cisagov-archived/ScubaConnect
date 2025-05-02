@@ -21,8 +21,8 @@ RUN powershell Install-PackageProvider -Name NuGet -Force
 
 USER ContainerUser
 
-RUN powershell Install-Module -Name ScubaGear -RequiredVersion %SCUBAGEAR_VERSION% -Force
-RUN powershell Initialize-SCuBA -Scope 
+RUN powershell Install-Module -Name ScubaGear -RequiredVersion %SCUBAGEAR_VERSION% -Force -Scope CurrentUser
+RUN powershell Initialize-SCuBA 
 COPY run_container.ps1 .
 
 
