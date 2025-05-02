@@ -15,10 +15,12 @@ RUN powershell Expand-Archive .\AzCopy.zip ./AzCopy -Force
 RUN powershell $item = Get-ChildItem .\AzCopy\*\azcopy.exe; Move-Item -Path $item -Destination .
 RUN powershell Remove-Item AzCopy.zip; Remove-Item -r .\AzCopy
 
-USER ContainerUser
 
 # Needed for setup module installs
 RUN powershell Install-PackageProvider -Name NuGet -Force
+
+USER ContainerUser
+
 RUN powershell Install-Module -Name ScubaGear -RequiredVersion %SCUBAGEAR_VERSION% -Force
 RUN powershell Initialize-SCuBA -Scope 
 COPY run_container.ps1 .
