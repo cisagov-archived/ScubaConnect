@@ -26,6 +26,7 @@ COPY run_container.ps1 .
 
 RUN powershell New-Item -Path C:\Users\ContainerUser\.scubagear\Tools -ItemType Directory
 RUN powershell Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* C:\Users\ContainerUser\.scubagear\Tools
+RUN icacls C:\Users\ContainerUser\.scubagear\Tools\* /grant ContainerUser:RX
 
 USER ContainerUser
 
