@@ -21,14 +21,14 @@ RUN powershell Install-PackageProvider -Name NuGet -Force
 
 
 RUN powershell Install-Module -Name ScubaGear -RequiredVersion %SCUBAGEAR_VERSION% -Force
-RUN powershell Initialize-SCuBA -Scope AllUsers
+RUN powershell Initialize-SCuBA -Scope AllUsers -NoOPA
 COPY run_container.ps1 .
 
-RUN powershell New-Item -Path C:\Users\ContainerUser\.scubagear\Tools -ItemType Directory
-RUN powershell Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* C:\Users\ContainerUser\.scubagear\Tools
-RUN icacls C:\Users\ContainerUser\.scubagear\Tools\* /grant ContainerUser:RX
+# RUN powershell New-Item -Path C:\Users\ContainerUser\.scubagear\Tools -ItemType Directory
+# RUN powershell Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* C:\Users\ContainerUser\.scubagear\Tools
+# RUN icacls C:\Users\ContainerUser\.scubagear\Tools\* /grant ContainerUser:RX
 
 USER ContainerUser
-
+RUN powershell Install-OPAforSCuBA
 
 CMD [ "powershell", ".\\run_container.ps1" ]
