@@ -25,7 +25,7 @@ RUN powershell Initialize-SCuBA -Scope AllUsers
 COPY run_container.ps1 .
 
 RUN powershell New-Item -Path C:\Users\ContainerUser\.scubagear\Tools -ItemType Directory
-RUN powershell Move-Item C:\Users\ContainerAdmin\.scubagear\Tools\* C:\Users\ContainerUser\.scubagear\Tools
+RUN powershell Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* C:\Users\ContainerUser\.scubagear\Tools
 
 USER ContainerUser
 
