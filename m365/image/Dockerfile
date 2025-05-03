@@ -21,14 +21,18 @@ RUN powershell Install-PackageProvider -Name NuGet -Force
 
 
 RUN powershell Install-Module -Name ScubaGear -RequiredVersion %SCUBAGEAR_VERSION% -Force
-RUN powershell Initialize-SCuBA -Scope AllUsers -NoOPA
+RUN powershell Initialize-SCuBA -Scope AllUsers
 COPY run_container.ps1 .
 
-# RUN powershell New-Item -Path C:\Users\ContainerUser\.scubagear\Tools -ItemType Directory
-# RUN powershell Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* C:\Users\ContainerUser\.scubagear\Tools
-# RUN icacls C:\Users\ContainerUser\.scubagear\Tools\* /grant ContainerUser:RX
+RUN powershell -Command  \
+    $opaPath = "C:\Users\ContainerUser\.scubagear\Tools\opa_windows_amd64.exe"; \
+    New-Item -Path  $opaPath -ItemType Directory; \
+    Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* $opaPath; \
+    $acl = Get-Acl $opaPath; \
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("ContainerUser", "ReadAndExecute", "Allow"); \
+    $acl.AddAccessRule($accessRule); \
+    Set-Acl $opaPath $acl
 
 USER ContainerUser
-RUN powershell Install-OPAforSCuBA
 
 CMD [ "powershell", ".\\run_container.ps1" ]
