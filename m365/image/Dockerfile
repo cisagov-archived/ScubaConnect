@@ -29,9 +29,9 @@ RUN powershell -Command  \
     New-Item -Path  $opaPath -ItemType Directory; \
     Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* $opaPath; \
     $acl = Get-Acl $opaPath; \
-    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("ContainerUser", "ReadAndExecute", "Allow"); \
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("""ContainerUser""", """ReadAndExecute""", """Allow"""); \
     $acl.AddAccessRule($accessRule); \
-    Set-Acl $opaPath $acl
+    Set-Acl $opaPath $acl;
 
 USER ContainerUser
 
