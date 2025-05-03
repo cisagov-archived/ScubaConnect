@@ -29,7 +29,7 @@ RUN powershell -Command  \
     New-Item -Path $opaPath -ItemType Directory; \
     Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* $opaPath; \
     $acl = Get-Acl $opaPath; \
-    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule('ContainerUser', 'ReadAndExecute', 'Allow'); \
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule('Everyone', 'ReadAndExecute', 'Allow'); \
     $acl.AddAccessRule($accessRule); \
     Set-Acl $opaPath $acl;
 
