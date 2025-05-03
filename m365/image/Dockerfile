@@ -25,11 +25,11 @@ RUN powershell Initialize-SCuBA -Scope AllUsers
 COPY run_container.ps1 .
 
 RUN powershell -Command  \
-    $opaPath = "C:\Users\ContainerUser\.scubagear\Tools\opa_windows_amd64.exe"; \
-    New-Item -Path  $opaPath -ItemType Directory; \
+    $opaPath = 'C:\Users\ContainerUser\.scubagear\Tools\opa_windows_amd64.exe'; \
+    New-Item -Path $opaPath -ItemType Directory; \
     Move-Item C:\Users\ContainerAdministrator\.scubagear\Tools\* $opaPath; \
     $acl = Get-Acl $opaPath; \
-    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("""ContainerUser""", """ReadAndExecute""", """Allow"""); \
+    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule('ContainerUser', 'ReadAndExecute', 'Allow'); \
     $acl.AddAccessRule($accessRule); \
     Set-Acl $opaPath $acl;
 
